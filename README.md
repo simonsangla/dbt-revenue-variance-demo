@@ -27,3 +27,13 @@ the docs site deployed on Vercel.
 
 The SQL is portable. `profiles.snowflake.example.yml` is a template that reads credentials
 from environment variables; the published build runs on DuckDB.
+
+## Demo video
+
+60-second silent walkthrough with captions (fictional data):
+lineage graph -> `fct_revenue_variance` -> Pro Plan, January 2026
+(total -29.80 = volume +596.00 + price -625.80) -> the reconciliation test -> `dbt build` PASS=25.
+
+- [`demo/dbt-revenue-variance-16x9.mp4`](demo/dbt-revenue-variance-16x9.mp4) (1920x1080)
+- [`demo/dbt-revenue-variance-1x1.mp4`](demo/dbt-revenue-variance-1x1.mp4) (1080x1080, social cut)
+- [`demo/hero.png`](demo/hero.png), how it was made: [`demo/recording-notes.md`](demo/recording-notes.md)
