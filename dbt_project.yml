@@ -1,0 +1,12 @@
+name: revenue_variance
+version: "1.0.0"
+config-version: 2
+profile: revenue_variance
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: target
+models:
+  revenue_variance:
+    staging: {+materialized: view}
+    marts: {+materialized: table}

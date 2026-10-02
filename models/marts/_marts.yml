@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: fct_monthly_revenue
+    description: Actual units and revenue per month and product.
+    columns:
+      - name: order_month
+        data_tests: [not_null]
+      - name: actual_revenue
+        data_tests: [not_null]
+  - name: fct_revenue_variance
+    description: >
+      Budget vs actual revenue per month and product, decomposed into a volume effect
+      (unit gap at budget price) and a price effect (realised price gap on actual units).
+      The two effects sum exactly to the total variance - see the singular test
+      assert_variance_bridge_reconciles.
+    columns:
+      - name: month
+        data_tests: [not_null]
+      - name: total_variance
+        description: actual_revenue - budget_revenue.
+      - name: volume_effect
+        description: (actual_units - budget_units) * budget_price.
+      - name: price_effect
+        description: actual_revenue - actual_units * budget_price.

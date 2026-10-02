@@ -1,0 +1,35 @@
+version: 2
+models:
+  - name: stg_orders
+    description: Completed order lines from the fictional orders seed; refunds excluded.
+    columns:
+      - name: order_id
+        description: Order line key.
+        data_tests: [unique, not_null]
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('stg_products'), field: product_id}}
+      - name: revenue
+        description: quantity * unit_price.
+        data_tests: [not_null]
+  - name: stg_budget
+    description: Monthly unit and price budget per product.
+    data_tests:
+      - dbt_utils_free_unique_combo:
+          arguments: {columns: "budget_month || '-' || product_id"}
+    columns:
+      - name: budget_month
+        data_tests: [not_null]
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('stg_products'), field: product_id}}
+  - name: stg_products
+    description: Product dimension.
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+      - name: category
+        data_tests:
+          - accepted_values: {arguments: {values: [subscription, services, add_on]}}

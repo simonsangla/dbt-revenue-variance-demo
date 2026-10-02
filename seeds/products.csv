@@ -1,0 +1,5 @@
+product_id,product_name,category
+P1,Starter Plan,subscription
+P2,Pro Plan,subscription
+P3,Onboarding Pack,services
+P4,Data Add-on,add_on

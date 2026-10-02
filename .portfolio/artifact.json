@@ -1,0 +1,21 @@
+{
+  "slug": "dbt-revenue-variance-demo",
+  "name": "Revenue Variance in dbt",
+  "tagline": "Budget vs actual revenue, split into volume and price effects, fully tested in dbt.",
+  "category": "Library",
+  "promise": "Explains every euro of revenue variance as a volume effect or a price effect, with a test proving the bridge reconciles.",
+  "business_value": "Finance and revenue teams get a variance bridge they can trust because the arithmetic is enforced by tests, not by a spreadsheet review.",
+  "status": "in-progress",
+  "protection_level": "public",
+  "date": "2026-10-02",
+  "tech_stack": ["dbt", "DuckDB", "Snowflake-portable SQL", "GitHub Actions"],
+  "links": [
+    { "label": "dbt docs", "url": "https://dbt-revenue-variance-demo-ftd7qjthc-simonsanglas-projects.vercel.app", "primary": true },
+    { "label": "Source", "url": "https://github.com/simonsangla/dbt-revenue-variance-demo" }
+  ],
+  "metrics": [
+    { "label": "dbt build", "value": "25/25 pass" },
+    { "label": "Data tests", "value": "17" },
+    { "label": "Data", "value": "100% fictional" }
+  ]
+}

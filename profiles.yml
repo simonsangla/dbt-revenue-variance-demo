@@ -1,0 +1,8 @@
+# Local demo profile: DuckDB, no credentials.
+revenue_variance:
+  target: duckdb
+  outputs:
+    duckdb:
+      type: duckdb
+      path: revenue_variance.duckdb
+      threads: 2
