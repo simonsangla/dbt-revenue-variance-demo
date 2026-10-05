@@ -58,6 +58,7 @@ sub(r'<meta property="og:description" content="[^"]*"/>',
     f'<meta property="og:url" content="{SITE}"/>'
     f'<meta property="og:image" content="{SITE}/og.png"/>'
     '<meta property="og:image:width" content="1200"/><meta property="og:image:height" content="627"/>')
+sub(r'<meta property="og:site_name" content="[^"]*"/>', f'<meta property="og:site_name" content="Simon Sangla"/>')
 sub(r'<meta name="twitter:title" content="[^"]*"/>',
     '<meta name="twitter:card" content="summary_large_image"/>'
     f'<meta name="twitter:title" content="{TITLE}"/>')
