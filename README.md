@@ -20,12 +20,12 @@ seeds (orders, budget, products)
 cd dbt-revenue-variance-demo && DBT_PROFILES_DIR=. uvx --with dbt-duckdb --from dbt-core dbt build
 ```
 
-25 nodes: 3 seeds, 5 models, 17 tests. `dbt docs generate --static` produces `site/index.html`,
-the docs site deployed on Vercel.
+25 nodes: 3 seeds, 5 models, 17 tests. `dbt docs generate --static && python3 scripts/sanitize_docs.py` produces `site/index.html`
+(neutral build path, share tags, favicon, link-back), the docs site deployed on Vercel.
 
 ## Snowflake
 
-The SQL is portable. `profiles.snowflake.example.yml` is a template that reads credentials
+The SQL is plain and was only run on DuckDB. `profiles.snowflake.example.yml` is a template that reads credentials
 from environment variables; the published build runs on DuckDB.
 
 ## Demo video
