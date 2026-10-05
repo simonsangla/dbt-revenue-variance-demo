@@ -16,13 +16,13 @@ Revenue came in under budget. This demo shows why, in one table.
 
 ## What the model does
 
-It splits the budget gap into a volume part and a price part, for every product and every month. A dbt test fails the build if volume + price stop adding up to the total.
+It splits the budget gap into a volume part and a price part, for every product and every month. A dbt test checks that volume + price reconcile to the total.
 
 ## Start here
 
 Open the [fct_revenue_variance model](#!/model/model.revenue_variance.fct_revenue_variance).
 
-Fictional data. SQL portable to Snowflake.
+Fictional data. Built on DuckDB in plain SQL.
 
 Built by Simon Sangla — [simonsangla.com](https://simonsangla.com)
 
