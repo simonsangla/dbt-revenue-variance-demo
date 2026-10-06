@@ -58,7 +58,9 @@ sub(r'<meta property="og:description" content="[^"]*"/>',
     f'<meta property="og:url" content="{SITE}"/>'
     f'<meta property="og:image" content="{SITE}/og.png"/>'
     '<meta property="og:image:width" content="1200"/><meta property="og:image:height" content="627"/>')
-sub(r'<meta property="og:site_name" content="[^"]*"/>', f'<meta property="og:site_name" content="Simon Sangla"/>')
+# LinkedIn Post Inspector warnings "No author found" / "Publish date not found" (#1236): author meta + article date
+AUTHOR_META = '<meta name="author" content="Simon Sangla"/><meta property="article:published_time" content="2026-10-05"/>'
+sub(r'<meta property="og:site_name" content="[^"]*"/>', f'<meta property="og:site_name" content="Simon Sangla"/>{AUTHOR_META}')
 sub(r'<meta name="twitter:title" content="[^"]*"/>',
     '<meta name="twitter:card" content="summary_large_image"/>'
     f'<meta name="twitter:title" content="{TITLE}"/>')
