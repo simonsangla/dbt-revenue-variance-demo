@@ -11,8 +11,9 @@ models:
     description: >
       Budget vs actual revenue per month and product, decomposed into a volume effect
       (unit gap at budget price) and a price effect (realised price gap on actual units).
-      The two effects sum exactly to the total variance - see the singular test
-      assert_variance_bridge_reconciles.
+      The two effects sum to the total variance by construction (algebra), so that sum is not what is tested.
+      The singular tests assert_variance_bridge_reconciles and assert_bridge_covers_all_revenue tie
+      budget + volume + price to the completed revenue recomputed from the raw orders seed.
     columns:
       - name: month
         data_tests: [not_null]
