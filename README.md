@@ -11,8 +11,9 @@ seeds (orders, budget, products)
 
 - `volume_effect = (actual_units - budget_units) * budget_price`
 - `price_effect  = actual_revenue - actual_units * budget_price`
-- The two sum exactly to `actual_revenue - budget_revenue`; the singular test
-  `assert_variance_bridge_reconciles` fails if they do not.
+- The two sum to `actual_revenue - budget_revenue` by construction, so that identity is not what is tested. The singular tests
+  `assert_variance_bridge_reconciles` and `assert_bridge_covers_all_revenue` tie `budget + volume + price` to the completed revenue
+  recomputed straight from the orders seed, so a changed refund filter, a revenue formula change or a dropped join fails the build.
 
 ## Run it (no credentials)
 
@@ -32,7 +33,7 @@ from environment variables; the published build runs on DuckDB.
 
 60-second silent walkthrough with captions (fictional data):
 lineage graph -> `fct_revenue_variance` -> Pro Plan, January 2026
-(total -29.80 = volume +596.00 + price -625.80) -> the reconciliation test -> `dbt build` PASS=25.
+(total -29.80 = volume +596.00 + price -625.80) -> the reconciliation tests -> `dbt build` PASS=26.
 
 - [`demo/dbt-revenue-variance-16x9.mp4`](demo/dbt-revenue-variance-16x9.mp4) (1920x1080)
 - [`demo/dbt-revenue-variance-1x1.mp4`](demo/dbt-revenue-variance-1x1.mp4) (1080x1080, social cut)

@@ -16,7 +16,7 @@ Revenue came in under budget. This demo shows why, in one table.
 
 ## What the model does
 
-It splits the budget gap into a volume part and a price part, for every product and every month. A dbt test checks that volume + price reconcile to the total.
+It splits the budget gap into a volume part and a price part, for every product and every month. Two dbt tests tie the bridge back to the raw order lines: budget + volume + price must equal the completed revenue recomputed from the orders seed, per month and product and in total.
 
 ## Start here
 

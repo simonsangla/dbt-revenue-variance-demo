@@ -2,7 +2,8 @@
 --   volume_effect = (actual_units - budget_units) * budget_price
 --   price_effect  = (actual_avg_price - budget_price) * actual_units, avg price unrounded
 --                   (actual_revenue / actual_units), computed independently of total_variance
---   volume_effect + price_effect = actual_revenue - budget_revenue (tested)
+--   volume_effect + price_effect = actual_revenue - budget_revenue holds by construction;
+--   the tests tie budget_revenue + volume_effect + price_effect to the raw orders seed (tests/)
 with b as (select * from {{ ref('stg_budget') }}),
      a as (select * from {{ ref('fct_monthly_revenue') }}),
      p as (select * from {{ ref('stg_products') }})
