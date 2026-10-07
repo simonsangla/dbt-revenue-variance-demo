@@ -27,6 +27,7 @@ Claims from the dbt and Snowflake conversation, re-run against this demo. Each i
 | 2026-10-07 | A changed definition should break visibly, not quietly | **Holds.** +15% revenue from refunds, build red on 2 tests. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_definition_change_breaks) |
 | 2026-10-07 | dbt 1.12 writes `osi_document.json` (Apache Ossie) at parse time | **Holds**, but it is empty until revenue is a semantic model. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_osi_export) |
 | 2026-10-07 | The semantic layer needs a time spine | **Holds.** Without it dbt refuses to parse. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_time_spine_required) |
+| 2026-10-07 | dbt Charts query models, not the Semantic Layer, so a dashboard and the metric can drift | **Holds.** Both agree at 53,546.30 EUR; a chart-SQL or metric change is caught while `dbt build` stays green. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_chart_vs_metric) |
 
 ## What the model does
 

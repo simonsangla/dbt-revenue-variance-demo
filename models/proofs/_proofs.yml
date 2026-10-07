@@ -93,3 +93,28 @@ exposures:
       - ref('metricflow_time_spine')
     owner:
       name: Simon Sangla
+
+  - name: proof_2026_10_07_chart_vs_metric
+    label: "Proof: a dashboard query and the revenue metric must agree"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-chart-vs-metric
+    description: |
+      **Claim tested (2026-10-07):** dbt Charts query models directly (`ref()` / SQL), not the Semantic Layer,
+      so a dashboard query and the `revenue` metric are two independent definitions that can drift.
+
+      | | Chart query (SQL over `fct_monthly_revenue`) | `revenue` via MetricFlow | `dbt build` |
+      |---|---|---|---|
+      | Clean | 53,546.30 EUR | 53,546.30 EUR | PASS=27, ERROR=0 |
+      | A: chart reads raw orders, status filter dropped | 61,606.60 EUR | 53,546.30 EUR | still PASS=27, ERROR=0 |
+      | B: `agg: sum` -> `agg: max` on `actual_revenue` | 53,546.30 EUR | 9,550.90 EUR | still PASS=27, ERROR=0 |
+
+      **Result: holds.** Plain `dbt build` stays green under both mutations; only this check catches the drift.
+      The chart is a plain SQL query labelled as such, no dbt Charts install.
+
+      Re-run: `bash proofs/2026-10-07-chart-vs-metric/check.sh` (needs `uv`).
+    depends_on:
+      - ref('fct_monthly_revenue')
+      - ref('metricflow_time_spine')
+    owner:
+      name: Simon Sangla
