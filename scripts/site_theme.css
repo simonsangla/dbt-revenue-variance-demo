@@ -49,4 +49,13 @@ a:hover { color: var(--ink); }
 /* holds / red build; the answer table keeps ink */
 .panel-body td strong { color: var(--green); }
 .panel-body > p > .table:first-of-type td strong { color: var(--ink); }
-@media (max-width: 760px) { .panel-body h1 { font-size: 24px; } .panel-body > p > .table:first-of-type tr:first-child td { font-size: 22px; } }
+/* phones: dbt docs is desktop-only (fixed 960px app, sidebar); drop the sidebar, let content fill the width */
+@media (max-width: 760px) {
+  .app { min-width: 0 !important; width: 100% !important; }
+  .app-menu { display: none !important; }
+  .app-body, .app-content { width: 100% !important; max-width: 100% !important; margin: 0 !important; left: 0 !important; }
+  .app-frame.app-pad { padding: 16px !important; }
+  .panel-body h1 { font-size: 24px; }
+  .panel-body .table { font-size: 13px; }
+  .panel-body > p > .table:first-of-type tr:first-child td { font-size: 22px; }
+}
