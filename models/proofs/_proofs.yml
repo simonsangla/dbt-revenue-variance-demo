@@ -1,0 +1,28 @@
+version: 2
+
+# One exposure per proof in proofs/: it shows in the lineage graph next to the models it tested,
+# and on those models' pages under "Referenced by".
+exposures:
+  - name: proof_2026_10_07_osi_export
+    label: "Proof: OSI export only carries what is modelled"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-osi-export
+    description: |
+      **Claim tested (2026-10-07):** dbt 1.12 writes `target/osi_document.json` (Apache Ossie / Open Semantic
+      Interchange) at parse time, so a metric defined once can travel to every tool.
+
+      | | `osi_document.json` |
+      |---|---|
+      | Before (`e039c63`, logic only in SQL models) | written, `datasets: []` |
+      | After (`f5ba575`, semantic model + `revenue` metric) | datasets `monthly_revenue`, metrics `revenue` |
+
+      **Result: holds**, and only what is modelled travels. The semantic layer also needs the
+      `metricflow_time_spine` model before dbt will parse.
+
+      Re-run: `bash proofs/2026-10-07-osi-export/check.sh` (CI runs it on every push).
+    depends_on:
+      - ref('fct_monthly_revenue')
+      - ref('metricflow_time_spine')
+    owner:
+      name: Simon Sangla
