@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}   # proofs/ parse older commits with git archive
       - uses: astral-sh/setup-uv@v6
       - name: dbt build (DuckDB)
         env: {DBT_PROFILES_DIR: .}
         run: uvx --with dbt-duckdb --from dbt-core dbt build
+      - name: proofs (claims re-tested against this demo)
+        env: {DBT: uvx --with dbt-duckdb --from dbt-core dbt}
+        run: bash proofs/run_all.sh

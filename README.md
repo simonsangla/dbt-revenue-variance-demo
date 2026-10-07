@@ -21,13 +21,24 @@ seeds (orders, budget, products)
 cd dbt-revenue-variance-demo && DBT_PROFILES_DIR=. uvx --with dbt-duckdb --from dbt-core dbt build
 ```
 
-25 nodes: 3 seeds, 5 models, 17 tests. `dbt docs generate --static && python3 scripts/sanitize_docs.py` produces `site/index.html`
+27 nodes: 3 seeds, 6 models (incl. the `metricflow_time_spine`), 18 tests, plus 1 semantic model and 1 metric (`revenue`). `dbt docs generate --static && python3 scripts/sanitize_docs.py` produces `site/index.html`
 (neutral build path, share tags, favicon, link-back), the docs site deployed on Vercel.
 
 ## Snowflake
 
 The SQL is plain and was only run on DuckDB. `profiles.snowflake.example.yml` is a template that reads credentials
 from environment variables; the published build runs on DuckDB.
+
+## Semantic layer and the OSI export
+
+`models/marts/_semantic_models.yml` defines revenue once as a semantic model (`monthly_revenue`) with a simple
+`revenue` metric. dbt 1.12 then writes it to `target/osi_document.json` (Apache Ossie / Open Semantic Interchange)
+at parse time, so other tools can read the same definition. Before it, that file was written but empty.
+
+## Proofs
+
+[`proofs/`](proofs/) holds one re-runnable check per claim tested against this demo (claim, test, result).
+`bash proofs/run_all.sh` runs them; CI runs them on every push. Browse them on the site at `/proofs.html`.
 
 ## Demo video
 
