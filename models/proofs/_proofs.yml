@@ -1,0 +1,71 @@
+version: 2
+
+# One exposure per proof in proofs/: it shows in the lineage graph next to the models it tested,
+# and on those models' pages under "Referenced by".
+exposures:
+  - name: proof_2026_10_07_osi_export
+    label: "Proof: OSI export only carries what is modelled"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-osi-export
+    description: |
+      **Claim tested (2026-10-07):** dbt 1.12 writes `target/osi_document.json` (Apache Ossie / Open Semantic
+      Interchange) at parse time, so a metric defined once can travel to every tool.
+
+      | | `osi_document.json` |
+      |---|---|
+      | Before (`e039c63`, logic only in SQL models) | written, `datasets: []` |
+      | After (`f5ba575`, semantic model + `revenue` metric) | datasets `monthly_revenue`, metrics `revenue` |
+
+      **Result: holds**, and only what is modelled travels. The semantic layer also needs the
+      `metricflow_time_spine` model before dbt will parse.
+
+      Re-run: `bash proofs/2026-10-07-osi-export/check.sh` (CI runs it on every push).
+    depends_on:
+      - ref('fct_monthly_revenue')
+      - ref('metricflow_time_spine')
+    owner:
+      name: Simon Sangla
+
+  - name: proof_2026_10_07_definition_change_breaks
+    label: "Proof: a changed revenue definition breaks the build"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-definition-change-breaks
+    description: |
+      **Claim tested (2026-10-07):** a definition change should create a visible break that the metric's owner
+      approves, rather than quietly changing the answers downstream.
+
+      | | Revenue | `dbt build` |
+      |---|---|---|
+      | Clean | 53,546.30 EUR | PASS=27, ERROR=0 |
+      | Refunds counted (one line in `stg_orders`) | 61,606.60 EUR (+8,060.30, +15%) | ERROR=2: `assert_variance_bridge_reconciles` (12 rows), `assert_bridge_covers_all_revenue` |
+
+      **Result: holds.** The known-answer tests recompute revenue from the raw orders, so the change cannot
+      reach the variance bridge silently.
+
+      Re-run: `bash proofs/2026-10-07-definition-change-breaks/check.sh` (CI runs it on every push).
+    depends_on:
+      - ref('stg_orders')
+      - ref('fct_revenue_variance')
+    owner:
+      name: Simon Sangla
+
+  - name: proof_2026_10_07_time_spine_required
+    label: "Proof: no time spine, no semantic layer"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-time-spine-required
+    description: |
+      **Learning (2026-10-07):** dbt's semantic layer needs a day-grain time spine before it will parse.
+
+      | | `dbt parse` |
+      |---|---|
+      | With `metricflow_time_spine` | OK |
+      | Without it | exit 2: "The semantic layer requires a time spine model with granularity DAY or smaller" |
+
+      Re-run: `bash proofs/2026-10-07-time-spine-required/check.sh` (CI runs it on every push).
+    depends_on:
+      - ref('metricflow_time_spine')
+    owner:
+      name: Simon Sangla
