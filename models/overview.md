@@ -28,6 +28,8 @@ Claims from the dbt and Snowflake conversation, re-run against this demo. Each i
 | 2026-10-07 | dbt 1.12 writes `osi_document.json` (Apache Ossie) at parse time | **Holds**, but it is empty until revenue is a semantic model. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_osi_export) |
 | 2026-10-07 | The semantic layer needs a time spine | **Holds.** Without it dbt refuses to parse. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_time_spine_required) |
 | 2026-10-07 | dbt Charts query models, not the Semantic Layer, so a dashboard and the metric can drift | **Holds.** Both agree at 53,546.30 EUR; a chart-SQL or metric change is caught while `dbt build` stays green. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_chart_vs_metric) |
+| 2026-10-07 | A metric defined in YAML needs its own known-answer test | **Holds.** `agg: sum` -> `max` drops revenue to 9,550.90 EUR while `dbt build` stays green; only a query through the semantic layer catches it. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_metric_known_answer) |
+| 2026-10-07 | A green pipeline does not mean the data is right | **Holds.** Duplicates were caught, but refunds counted as revenue (+15%) and a missing month (-33%) passed a green build until two completeness tests were added. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_green_pipeline_wrong_data) |
 
 ## What the model does
 

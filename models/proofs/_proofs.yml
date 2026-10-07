@@ -118,3 +118,26 @@ exposures:
       - ref('metricflow_time_spine')
     owner:
       name: Simon Sangla
+
+  - name: proof_2026_10_07_green_pipeline_wrong_data
+    label: "Proof: a green pipeline can still carry wrong data"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-green-pipeline-wrong-data
+    description: |
+      **Claim tested (2026-10-07):** a green run says the code executed, not that the data is right.
+
+      | Mutation (orders seed) | Revenue | Before new tests | After |
+      |---|---|---|---|
+      | 5 lines loaded twice | 53,776.60 EUR (+230.30) | caught: `unique_stg_orders_order_id` | caught |
+      | Refunds relabelled completed | 61,606.60 EUR (+15%) | not caught, PASS=27 ERROR=0 | `assert_refunds_present_each_month` |
+      | March orders missing | 35,950.20 EUR (-33%) | not caught, PASS=27 ERROR=0 | `assert_orders_cover_budget_months` |
+
+      **Result: holds.** 2 of 3 failures passed a green build; the known-answer tests read the same wrong seed.
+
+      Re-run: `bash proofs/2026-10-07-green-pipeline-wrong-data/check.sh` (CI runs it on every push).
+    depends_on:
+      - ref('stg_orders')
+      - ref('stg_budget')
+    owner:
+      name: Simon Sangla
