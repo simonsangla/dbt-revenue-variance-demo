@@ -1,0 +1,44 @@
+version: 2
+
+# Revenue as a semantic model, so it travels in target/osi_document.json (dbt 1.12+).
+# Without this file the OSI document is written but its datasets list is empty.
+semantic_models:
+  - name: monthly_revenue
+    description: Actual units and revenue per month and product.
+    model: ref('fct_monthly_revenue')
+    defaults:
+      agg_time_dimension: order_month
+    entities:
+      - name: monthly_product
+        type: primary
+        expr: "order_month || '-' || product_id"
+      - name: product
+        type: foreign
+        expr: product_id
+    dimensions:
+      - name: order_month
+        type: time
+        type_params:
+          time_granularity: month
+    measures:
+      - name: actual_revenue
+        agg: sum
+      - name: actual_units
+        agg: sum
+
+metrics:
+  - name: revenue
+    label: Revenue
+    description: Actual revenue, summed.
+    type: simple
+    type_params:
+      measure: actual_revenue
+
+models:
+  - name: metricflow_time_spine
+    description: Day-grain calendar for the semantic layer.
+    time_spine:
+      standard_granularity_column: date_day
+    columns:
+      - name: date_day
+        granularity: day
