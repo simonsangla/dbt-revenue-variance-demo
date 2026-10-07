@@ -14,17 +14,23 @@ Revenue came in under budget. This demo shows why, in one table.
 
 **Growth hid a discounting problem.** Sales volume beat the plan, but discounting ate the gain.
 
-## What the model does
-
-It splits the budget gap into a volume part and a price part, for every product and every month. Two dbt tests tie the bridge back to the raw order lines: budget + volume + price must equal the completed revenue recomputed from the orders seed, per month and product and in total.
-
 ## Tested in public
 
-Claims from the dbt and Snowflake conversation, re-run against this demo. Each one is a script in `proofs/` that CI re-runs on every push, and each appears in the lineage graph as an exposure.
+> **Try to break it.** Change one line so refunded orders count as revenue, and revenue jumps by
+> **8,060.30 EUR (+15%)**. The build goes red on two known-answer tests before that number reaches anyone.
+> [See the proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_definition_change_breaks)
+
+Claims from the dbt and Snowflake conversation, re-run against this demo. Each is a script in `proofs/` that CI re-runs on every push, and each appears in the lineage graph as an exposure.
 
 | Date | Claim tested | Result |
 |---|---|---|
+| 2026-10-07 | A changed definition should break visibly, not quietly | **Holds.** +15% revenue from refunds, build red on 2 tests. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_definition_change_breaks) |
 | 2026-10-07 | dbt 1.12 writes `osi_document.json` (Apache Ossie) at parse time | **Holds**, but it is empty until revenue is a semantic model. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_osi_export) |
+| 2026-10-07 | The semantic layer needs a time spine | **Holds.** Without it dbt refuses to parse. [Proof](#!/exposure/exposure.revenue_variance.proof_2026_10_07_time_spine_required) |
+
+## What the model does
+
+It splits the budget gap into a volume part and a price part, for every product and every month. Two dbt tests tie the bridge back to the raw order lines: budget + volume + price must equal the completed revenue recomputed from the orders seed, per month and product and in total.
 
 ## Start here
 
