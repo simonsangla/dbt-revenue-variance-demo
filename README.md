@@ -21,7 +21,7 @@ seeds (orders, budget, products)
 cd dbt-revenue-variance-demo && DBT_PROFILES_DIR=. uvx --with dbt-duckdb --from dbt-core dbt build
 ```
 
-27 nodes: 3 seeds, 6 models (incl. the `metricflow_time_spine`), 18 tests, plus 1 semantic model and 1 metric (`revenue`). `dbt docs generate --static && python3 scripts/sanitize_docs.py` produces `site/index.html`
+29 nodes: 3 seeds, 6 models (incl. the `metricflow_time_spine`), 20 tests, plus 1 semantic model and 1 metric (`revenue`). `dbt docs generate --static && python3 scripts/sanitize_docs.py` produces `site/index.html`
 (neutral build path, share tags, favicon, link-back), the docs site deployed on Vercel.
 
 ## Snowflake
