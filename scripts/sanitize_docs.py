@@ -27,9 +27,17 @@ FAVICON = (
 )
 PILL = (
     '<a id="built-by-simon" href="https://simonsangla.com" target="_blank" rel="noopener" '
-    'style="position:fixed;left:12px;bottom:12px;z-index:2147483647;background:#111;color:#fff;'
-    "font:13px/1.2 system-ui,sans-serif;padding:8px 12px;border-radius:6px;text-decoration:none;"
+    'style="position:fixed;left:12px;bottom:12px;z-index:2147483647;background:#101c2b;color:#fff;'
+    "font:13px/1.2 'IBM Plex Sans',system-ui,sans-serif;padding:8px 12px;border-radius:6px;text-decoration:none;"
     'box-shadow:0 2px 8px rgba(0,0,0,.3)">Built by Simon Sangla — simonsangla.com</a>'
+)
+
+# 0. ledger theme (mission-os#1282): simonsangla.com tokens + IBM Plex, from scripts/site_theme.css
+THEME = (
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500'
+    '&family=IBM+Plex+Sans:wght@400;500&display=swap">'
+    "<style>" + open(os.path.join(ROOT, "scripts", "site_theme.css"), encoding="utf-8").read() + "</style>"
 )
 
 html = open(SRC, encoding="utf-8").read()
@@ -49,7 +57,7 @@ def sub(pattern, repl):
         sys.exit("sanitize_docs: head pattern not found: " + pattern)
     html = new
 
-sub(r"<title>[^<]*</title>", f"<title>{TITLE}</title>")
+sub(r"<title>[^<]*</title>", f"<title>{TITLE}</title>{THEME}")
 sub(r'<meta name="description" content="[^"]*"/>', f'<meta name="description" content="{DESC}"/>')
 sub(r'<link rel="shortcut icon" href="[^"]*"/>', f'<link rel="icon" href="{FAVICON}"/>')
 sub(r'<meta property="og:title" content="[^"]*"/>', f'<meta property="og:title" content="{TITLE}"/>')

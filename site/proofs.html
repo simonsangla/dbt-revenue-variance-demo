@@ -1,51 +1,7 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proofs - dbt revenue variance demo</title>
-<meta name="description" content="Claims from the dbt and Snowflake conversation, re-tested against a fictional-data dbt demo. Each proof is a re-runnable script.">
-<meta name="author" content="Simon Sangla">
-<style>
-:root { --bg:#ffffff; --fg:#1b1f24; --muted:#59636e; --line:#d1d9e0; --card:#f6f8fa; --ok:#1a7f37; --accent:#0b5cad; }
-@media (prefers-color-scheme: dark) { :root { --bg:#0d1117; --fg:#e6edf3; --muted:#9198a1; --line:#30363d; --card:#151b23; --ok:#3fb950; --accent:#4493f8; } }
-* { box-sizing:border-box; }
-body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-main { max-width:860px; margin:0 auto; padding:32px 16px 64px; }
-h1 { font-size:1.6rem; margin:0 0 4px; }
-.sub { color:var(--muted); margin:0 0 28px; }
-.proof { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:20px; }
-.meta { color:var(--muted); font-size:.9rem; margin-bottom:8px; }
-.badge { display:inline-block; color:var(--ok); border:1px solid var(--ok); border-radius:999px; padding:0 10px; font-size:.8rem; margin-left:8px; }
-h2 { font-size:1.15rem; margin:0 0 10px; }
-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:.95rem; }
-th, td { text-align:left; border-top:1px solid var(--line); padding:8px 6px; vertical-align:top; }
-code { font:.9em ui-monospace, SFMono-Regular, Menlo, monospace; }
-pre { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:12px; overflow-x:auto; font-size:.85rem; }
-a { color:var(--accent); }
-</style>
-</head>
-<body>
-<main>
-<h1>Proofs</h1>
-<p class="sub">Claims from the dbt and Snowflake conversation, re-tested against this fictional-data demo. Every proof is a script in the repo, and CI re-runs them all on every push. <a href="index.html">Back to the docs site</a>.</p>
-
-<section class="proof">
-<div class="meta">2026-10-07 · dbt 1.12 · Apache Ossie <span class="badge">holds</span></div>
-<h2>dbt's OSI export only carries what you have modelled</h2>
-<p><strong>Claim discussed:</strong> dbt 1.12 writes <code>target/osi_document.json</code> (Open Semantic Interchange) at parse time, so a metric defined once can travel to every tool.</p>
-<table>
-<tr><th></th><th><code>osi_document.json</code></th></tr>
-<tr><td>Before: variance logic only in SQL models</td><td>written, <code>datasets: []</code></td></tr>
-<tr><td>After: semantic model <code>monthly_revenue</code> + metric <code>revenue</code></td><td>datasets <code>monthly_revenue</code>, metrics <code>revenue</code></td></tr>
-</table>
-<p><strong>Result:</strong> the file is written at parse time, as claimed, but logic left in SQL models does not travel. The semantic layer also needs a day-grain time spine model before dbt will parse.</p>
-<pre>$ bash proofs/2026-10-07-osi-export/check.sh
-BEFORE e039c63: datasets= metrics=
-AFTER  f5ba575: datasets=monthly_revenue metrics=revenue
-PASS: the OSI export only carries what is modelled</pre>
-<p><a href="https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-osi-export">Claim and script on GitHub</a></p>
-</section>
-</main>
-</body>
-</html>
+<meta http-equiv="refresh" content="0; url=/#!/overview">
+<link rel="canonical" href="/#!/overview">
+<style>body{margin:0;background:#fff;color:#101c2b;font:15px/1.6 "IBM Plex Sans",system-ui,sans-serif;padding:32px 16px}a{color:#2f6b4f}</style>
+</head><body><p>The proofs now live in the docs, under <a href="/#!/overview">Tested in public</a>.</p></body></html>
