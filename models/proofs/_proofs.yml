@@ -69,3 +69,27 @@ exposures:
       - ref('metricflow_time_spine')
     owner:
       name: Simon Sangla
+
+  - name: proof_2026_10_07_metric_known_answer
+    label: "Proof: the revenue metric must match the raw orders"
+    type: analysis
+    maturity: high
+    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-07-metric-known-answer
+    description: |
+      **Claim tested (2026-10-07):** tests that read tables cannot see a change made inside the semantic layer;
+      a metric defined in YAML needs its own known-answer test, queried through the semantic layer itself.
+
+      | | `revenue` via MetricFlow | Raw seed | `dbt build` |
+      |---|---|---|---|
+      | Clean | 53,546.30 EUR | 53,546.30 EUR | PASS=27, ERROR=0 |
+      | `agg: sum` -> `agg: max` on `actual_revenue` | 9,550.90 EUR | 53,546.30 EUR | still PASS=27, ERROR=0 |
+
+      **Result: holds.** Plain `dbt build` stays green on the mutated measure; only this check, which queries
+      `mf query --metrics revenue`, catches it.
+
+      Re-run: `bash proofs/2026-10-07-metric-known-answer/check.sh` (needs `uv`).
+    depends_on:
+      - ref('fct_monthly_revenue')
+      - ref('metricflow_time_spine')
+    owner:
+      name: Simon Sangla
