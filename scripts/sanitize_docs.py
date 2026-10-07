@@ -25,11 +25,18 @@ FAVICON = (
     "%3Crect x='13' y='8' width='5' height='6' fill='%231F7A64'/%3E"
     "%3Crect x='20' y='12' width='5' height='14' fill='%23A44F1B'/%3E%3C/svg%3E"
 )
+# Return strip (mission-os#1283): every demo links back and to the attributed
+# Cal booking page, so demo traffic can reach a booking and be counted.
 PILL = (
-    '<a id="built-by-simon" href="https://simonsangla.com" target="_blank" rel="noopener" '
-    'style="position:fixed;left:12px;bottom:12px;z-index:2147483647;background:#101c2b;color:#fff;'
-    "font:13px/1.2 'IBM Plex Sans',system-ui,sans-serif;padding:8px 12px;border-radius:6px;text-decoration:none;"
-    'box-shadow:0 2px 8px rgba(0,0,0,.3)">Built by Simon Sangla — simonsangla.com</a>'
+    '<div id="built-by-simon" style="position:fixed;left:12px;bottom:12px;z-index:2147483647;'
+    "display:flex;align-items:center;gap:10px;background:#101c2b;color:#fff;"
+    "font:13px/1.2 'IBM Plex Sans',system-ui,sans-serif;padding:6px 6px 6px 12px;border-radius:6px;"
+    'box-shadow:0 2px 8px rgba(0,0,0,.3)">'
+    '<a href="https://simonsangla.com/?ref=dbt-demo" target="_blank" rel="noopener" '
+    'style="color:#fff;text-decoration:none">Built by Simon Sangla</a>'
+    '<a href="https://cal.com/simon-sangla/trust-sprint-scoping-call?ref=dbt-demo" target="_blank" rel="noopener" '
+    'style="background:#fff;color:#101c2b;padding:6px 10px;border-radius:4px;text-decoration:none;font-weight:500">'
+    "Book the scoping call &#8599;</a></div>"
 )
 
 # 0. ledger theme (mission-os#1282): simonsangla.com tokens + IBM Plex, from scripts/site_theme.css
@@ -77,7 +84,7 @@ sub(r'<meta name="twitter:description" content="[^"]*"/>',
     f'<meta name="twitter:image" content="{SITE}/og.png"/>')
 
 # 3. pill
-html = re.sub(r'<a id="built-by-simon".*?</a>', "", html, flags=re.S)
+html = re.sub(r'<div id="built-by-simon".*?</div>|<a id="built-by-simon".*?</a>', "", html, flags=re.S)
 if "</body>" not in html:
     sys.exit("sanitize_docs: </body> not found")
 html = html.replace("</body>", PILL + "</body>", 1)
