@@ -7,16 +7,6 @@ jobs:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}   # proofs/ parse older commits with git archive
       - uses: astral-sh/setup-uv@v6
-      - name: dbt build (DuckDB)
-        env: {DBT_PROFILES_DIR: .}
-        run: uvx --with dbt-duckdb --from dbt-core dbt build
-      - name: proofs (claims re-tested against this demo)
-        env: {DBT: uvx --with dbt-duckdb --from dbt-core dbt}
-        run: bash proofs/run_all.sh
-      - name: docs site carries every proof (regenerate, then check committed site/)
-        env: {DBT_PROFILES_DIR: .}
-        run: |
-          uvx --with dbt-duckdb --from dbt-core dbt docs generate --static
-          python3 scripts/sanitize_docs.py
-          python3 scripts/check_site_proofs.py site/index.html
-          python3 scripts/check_site_proofs.py
+      # One script is the definition of green: the same one a contributor runs before a PR.
+      - name: pre-PR checks (lint, dbt build, proofs, docs site)
+        run: bash scripts/pre-pr.sh
