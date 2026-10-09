@@ -9,7 +9,7 @@ ROOT="$(git rev-parse --show-toplevel)"; DBT="${DBT:-dbt}"
 W="$(mktemp -d)"; trap 'rm -rf "$W"' EXIT
 plain(){ sed 's/\x1b\[[0-9;]*m//g'; }
 build(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT build --target-path "$W/$1/t" 2>&1 | plain); }
-total(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT show --target-path "$W/$1/t" --inline "select sum(revenue) as r from {{ ref('stg_orders') }}" 2>&1 | plain | grep -E '^\| *[0-9]' | grep -Eo '[0-9][0-9,]*\.?[0-9]*' | head -1); }
+total(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT show --target-path "$W/$1/t" --inline "select sum(revenue) as r from {{ ref('stg_orders') }}" 2>&1 | plain | grep -E '^\| *[0-9]' | grep -Eo '[0-9][0-9,]*\.?[0-9]*' | head -1 | tr -d ','); }
 for d in clean dup refunds month; do mkdir -p "$W/$d"; git -C "$ROOT" archive "${REF:-HEAD}" | tar -x -C "$W/$d"; done
 S=seeds/orders.csv
 { cat "$W/clean/$S"; grep ',completed$' "$W/clean/$S" | head -5; } > "$W/dup/$S"
@@ -20,11 +20,13 @@ grep -q ',refunded$' "$W/refunds/$S" && { echo "FAIL: mutation 2 not applied"; e
 grep -q ',2026-03-' "$W/month/$S" && { echo "FAIL: mutation 3 not applied"; exit 1; }
 fail=0
 for d in clean dup refunds month; do
-  out=$(build "$d")
-  echo "$d: revenue $(total "$d") EUR | $(printf '%s\n' "$out" | grep -Eo 'PASS=[0-9]+ WARN=[0-9]+ ERROR=[0-9]+' | tail -1)"
+  out=$(build "$d"); rev=$(total "$d"); eval "rev_$d=\$rev"
+  echo "$d: revenue $rev EUR | $(printf '%s\n' "$out" | grep -Eo 'PASS=[0-9]+ WARN=[0-9]+ ERROR=[0-9]+' | tail -1)"
   printf '%s\n' "$out" | grep -Eo 'FAIL [0-9]+ [a-z_0-9]{3,}' | sort -u | sed 's/^/  /'
   if [ "$d" = clean ]; then printf '%s\n' "$out" | grep -q 'ERROR=0' || { echo "FAIL: clean build is not green"; fail=1; }
   else printf '%s\n' "$out" | grep -q 'ERROR=0' && { echo "FAIL: $d went through a green build"; fail=1; }; fi
 done
 [ "$fail" = 0 ] || exit 1
+pct=$(awk -v a="$rev_clean" -v b="$rev_refunds" 'BEGIN{printf "%.0f", (b-a)/a*100}')
+echo "refunds relabelled: revenue $rev_clean -> $rev_refunds EUR, +${pct}%"
 echo "PASS: duplicated lines, returns counted as revenue and a missing month each turn the build red"

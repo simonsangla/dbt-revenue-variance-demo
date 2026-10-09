@@ -12,7 +12,7 @@ code executed, not that the numbers are right; duplicates, lost returns and miss
 | 2. Refunded lines relabelled `completed` (returns no longer excluded) | 61,606.60 EUR (+8,060.30, +15%) | **not caught**: PASS=27 ERROR=0 | caught: `assert_refunds_present_each_month` |
 | 3. March 2026 orders missing | 35,950.20 EUR (-17,596.10, -33%) | **not caught**: PASS=27 ERROR=0 | caught: `assert_orders_cover_budget_months` (and `assert_refunds_present_each_month`, March refunds gone too) |
 
-**Finding:** before this proof, 2 of 3 failures went through a fully green build. The known-answer tests did not
+**Result:** before this proof, 2 of 3 failures went through a fully green build. The known-answer tests did not
 help: they recompute revenue from the same seed, so when the seed itself is wrong both sides agree. The missing
 month showed up only as a 100% budget miss in the bridge, which reads like a business result, not a data fault.
 
@@ -22,6 +22,8 @@ Clean build: PASS=29 ERROR=0; mutated builds ERROR=1, 1, 2.
 
 **Limits:** the refunds test detects a lost status, not a wrong refund rate; a duplicate re-keyed with a new
 `order_id` is not caught by any test here.
+
+**Plain figures** (comma-free, printed by `check.sh`): clean revenue 53546.3 EUR, refunds relabelled 61606.6 EUR, +15%.
 
 **Run it:** `bash proofs/2026-10-07-green-pipeline-wrong-data/check.sh` (`REF=29349b7` replays the before state;
 it exits 1 because mutations 2 and 3 pass a green build)

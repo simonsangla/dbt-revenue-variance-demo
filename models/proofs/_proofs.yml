@@ -134,6 +134,7 @@ exposures:
       | March orders missing | 35,950.20 EUR (-33%) | not caught, PASS=27 ERROR=0 | `assert_orders_cover_budget_months` |
 
       **Result: holds.** 2 of 3 failures passed a green build; the known-answer tests read the same wrong seed.
+      Plain figures: refunds relabelled moves revenue 53546.3 -> 61606.6 EUR, +15%.
 
       Re-run: `bash proofs/2026-10-07-green-pipeline-wrong-data/check.sh` (CI runs it on every push).
     depends_on:
