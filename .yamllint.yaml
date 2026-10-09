@@ -1,0 +1,11 @@
+extends: default
+ignore: |
+  site/
+  target/
+  dbt_packages/
+rules:
+  document-start: disable
+  line-length: disable
+  truthy: {check-keys: false}
+  comments: {min-spaces-from-content: 1}
+  braces: {max-spaces-inside: 1}
