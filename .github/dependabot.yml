@@ -5,6 +5,3 @@ updates:
     schedule: {interval: weekly}
     groups:
       actions: {patterns: ["*"]}
-  - package-ecosystem: pip
-    directory: /
-    schedule: {interval: weekly}
