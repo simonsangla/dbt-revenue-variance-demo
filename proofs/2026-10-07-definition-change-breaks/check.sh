@@ -8,7 +8,7 @@ ROOT="$(git rev-parse --show-toplevel)"; DBT="${DBT:-dbt}"
 W="$(mktemp -d)"; trap 'rm -rf "$W"' EXIT
 plain(){ sed 's/\x1b\[[0-9;]*m//g'; }
 build(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT build --target-path "$W/$1/t" 2>&1 | plain); }
-total(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT show --target-path "$W/$1/t" --inline "select sum(revenue) as r from {{ ref('stg_orders') }}" 2>&1 | plain | grep -E '^\| *[0-9]' | grep -Eo '[0-9][0-9,]*\.?[0-9]*' | head -1); }
+total(){ (cd "$W/$1" && DBT_PROFILES_DIR=. $DBT show --target-path "$W/$1/t" --inline "select sum(revenue) as r from {{ ref('stg_orders') }}" 2>&1 | plain | grep -E '^\| *[0-9]' | grep -Eo '[0-9][0-9,]*\.?[0-9]*' | head -1 | tr -d ,); }
 for d in clean mutated; do mkdir -p "$W/$d"; git -C "$ROOT" archive f5ba575 | tar -x -C "$W/$d"; done
 sed -i.bak "s/where status = 'completed'/where status in ('completed', 'refunded')/" "$W/mutated/models/staging/stg_orders.sql"
 grep -q "status in ('completed', 'refunded')" "$W/mutated/models/staging/stg_orders.sql" || { echo "FAIL: mutation not applied"; exit 1; }
