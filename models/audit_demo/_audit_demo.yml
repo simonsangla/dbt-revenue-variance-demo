@@ -1,0 +1,22 @@
+# Planted-defect models for the dbt Model Auditor sample. Disabled unless
+# `--vars '{audit_demo: true}'` is passed, so the default build is unchanged.
+version: 2
+sources:
+  - name: raw
+    schema: main
+    config:
+      enabled: "{{ var('audit_demo', false) }}"
+    tables:
+      - name: orders
+models:
+  - name: int_orders_enriched
+    description: Order lines joined to the product dimension (planted defect - no tests).
+  - name: rpt_budget_gap
+    columns:
+      - name: month
+        data_tests: [not_null]
+  - name: legacy_margin
+    description: Monthly revenue per product kept under a legacy name (planted defect - naming).
+    columns:
+      - name: order_month
+        data_tests: [not_null]
