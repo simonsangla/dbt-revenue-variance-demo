@@ -10,3 +10,4 @@ models:
   revenue_variance:
     staging: {+materialized: view}
     marts: {+materialized: table}
+    audit_demo: {+materialized: view, +enabled: "{{ var('audit_demo', false) }}"}
