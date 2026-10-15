@@ -1,6 +1,6 @@
-# Claude now writes the SQL behind every dashboard chart (2026-10-15)
+# Claude now writes the SQL behind every dashboard chart
 
-Status: **not yet proven** (stub; `check.sh` exits 1 until a real check replaces it).
+Status: **not yet proven** (stub; `check.sh` fails until a real check replaces it). While the `PENDING` file exists this claim carries no numbers and `run_all.sh` never counts it as evidence.
 
 **Claim discussed:** Claude now writes the SQL behind every dashboard chart.
 
@@ -8,6 +8,6 @@ Status: **not yet proven** (stub; `check.sh` exits 1 until a real check replaces
 
 **Context:** Claude Dashboards (beta) runs Claude-written SQL against your warehouse; primary-source quotes in the research note. Angle for AI builders: generated queries need the same review as generated code.
 
-**Source candidate:** `asset-claude-dashboards` (mission-os `missions/linkedin-campaign/candidates.json`, evidence `docs/research/2026-10-13-claude-dashboards-positioning.md`)
+**Source candidate:** `asset-claude-dashboards` (mission-os LinkedIn campaign candidates, with its Claude Dashboards positioning research note)
 
-**Run it:** `bash proofs/2026-10-15-claude-dashboards/check.sh`
+**Run it:** `bash check.sh` from this folder
