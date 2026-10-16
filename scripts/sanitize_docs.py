@@ -47,6 +47,14 @@ THEME = (
     "<style>" + open(os.path.join(ROOT, "scripts", "site_theme.css"), encoding="utf-8").read() + "</style>"
 )
 
+# Vercel Web Analytics: inline script for static HTML sites
+ANALYTICS = (
+    '<script>'
+    'window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };'
+    '</script>'
+    '<script defer src="/_vercel/insights/script.js"></script>'
+)
+
 html = open(SRC, encoding="utf-8").read()
 
 # 1. neutral path: the real root, its realpath, and macOS /private variants
@@ -64,7 +72,7 @@ def sub(pattern, repl):
         sys.exit("sanitize_docs: head pattern not found: " + pattern)
     html = new
 
-sub(r"<title>[^<]*</title>", f"<title>{TITLE}</title>{THEME}")
+sub(r"<title>[^<]*</title>", f"<title>{TITLE}</title>{THEME}{ANALYTICS}")
 sub(r'<meta name="description" content="[^"]*"/>', f'<meta name="description" content="{DESC}"/>')
 sub(r'<link rel="shortcut icon" href="[^"]*"/>', f'<link rel="icon" href="{FAVICON}"/>')
 sub(r'<meta property="og:title" content="[^"]*"/>', f'<meta property="og:title" content="{TITLE}"/>')
