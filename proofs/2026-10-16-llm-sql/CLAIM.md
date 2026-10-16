@@ -1,6 +1,6 @@
 # Does an LLM write plausible SQL for questions with no defined metric? (2026-10-16)
 
-**Claim tested:** given a schema that cannot answer a question, an LLM still writes plausible-looking SQL instead of
+**Claim discussed:** given a schema that cannot answer a question, an LLM still writes plausible-looking SQL instead of
 declining.
 
 **What I tested:** `run_llm.py` gave a local model (`qwen2.5-coder:7b` via Ollama, digest `dae161e27b0e`) the two mart
@@ -19,7 +19,7 @@ the counts from it (no Ollama needed).
 | churn rate by month | no | 0 |
 | net promoter score | no | 0 |
 
-**Result: does not hold for this setup.** 0 of 20 runs on the 4 unanswerable questions returned SQL; the model declined
+**Result:** does not hold for this setup. 0 of 20 runs on the 4 unanswerable questions returned SQL; the model declined
 every one, and answered the 3 answerable ones with correct-looking aggregates over `fct_monthly_revenue`.
 
 **Limits:** one small model, one prompt that explicitly offers `DECLINE` as an exit, a two-table schema with no
