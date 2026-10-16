@@ -23,5 +23,4 @@ evaluation:
     type: "dataset"
     dataset_name: "board_figures_golden"
 metrics:
-  - name: "answer_correctness"
-    version: "v3"
+  - "answer_correctness"

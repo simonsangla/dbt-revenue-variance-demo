@@ -4,9 +4,9 @@
 select
     figure_id,
     question,
-    object_construct(
+    to_json(object_construct(
         'ground_truth_output',
         to_varchar(published_value) || ' (' || metric || ', '
             || to_varchar(period_start) || ' to ' || to_varchar(period_end) || ')'
-    ) as expected
+    )) as expected
 from {{ ref('board_figures') }}
