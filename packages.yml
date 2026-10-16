@@ -1,0 +1,5 @@
+packages:
+  - package: Snowflake-Labs/dbt_semantic_view
+    version: 1.0.6
+  - package: Matts52/dbt_cortex_agent
+    version: 1.1.3

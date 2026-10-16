@@ -9,6 +9,9 @@
 # Tested by scripts/test_pending_claims.sh.
 set -uo pipefail
 cd "$(dirname "$0")"
+# Exported trees need `dbt deps` before any dbt call (packages.yml, no dbt_packages/).
+export DBT_REAL="${DBT_REAL:-${DBT:-dbt}}"
+export DBT="bash $PWD/dbt_deps.sh"
 strict=0; only=""
 for a in "$@"; do
   case "$a" in

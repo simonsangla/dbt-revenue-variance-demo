@@ -1,0 +1,18 @@
+version: 2
+
+# Demo exposure: the downstream consumer of the marts, so lineage tools
+# (e.g. the dbt model auditor's /lineage page) can show what a broken
+# model would reach. Fictional dashboard; no real BI tool is connected.
+exposures:
+  - name: revenue_variance_review
+    label: Monthly revenue variance review
+    type: dashboard
+    maturity: medium
+    description: >
+      Monthly finance review of actual vs budget revenue by product
+      category. Reads the variance mart and the monthly revenue mart.
+    depends_on:
+      - ref('fct_revenue_variance')
+      - ref('fct_monthly_revenue')
+    owner:
+      name: Finance analytics (demo)

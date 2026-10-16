@@ -49,3 +49,21 @@ lineage graph -> `fct_revenue_variance` -> Pro Plan, January 2026
 - [`demo/dbt-revenue-variance-16x9.mp4`](demo/dbt-revenue-variance-16x9.mp4) (1920x1080)
 - [`demo/dbt-revenue-variance-1x1.mp4`](demo/dbt-revenue-variance-1x1.mp4) (1080x1080, social cut)
 - [`demo/hero.png`](demo/hero.png), how it was made: [`demo/recording-notes.md`](demo/recording-notes.md)
+
+## Board Figure Lock
+
+A Cortex agent defined in dbt is released only if it reproduces the figures already published to the board.
+
+- `seeds/board_figures.csv` lists the published figures, one row each: period, metric, value, source deck, owner and the question a business user would ask. BF03 is deliberately 3.90 off, to show a gap.
+- `tests/assert_board_figures_reconcile.sql` compares the warehouse with each published figure. It warns and never blocks; the figure's owner decides which side is right. Every gap gets a cause.
+- `models/agent/` holds the Snowflake-only part, which is disabled on DuckDB. A semantic view comes from `Snowflake-Labs/dbt_semantic_view` and the agent from `Matts52/dbt_cortex_agent`. The board figures feed a `cortex_agent_eval` ground-truth dataset scored on answer correctness.
+
+```bash
+dbt deps
+dbt build                                   # DuckDB: reconcile test warns on BF03
+dbt build --target snowflake                # semantic view, agent, eval config
+dbt run-operation run_cortex_agent_eval --target snowflake \
+  --args '{eval: revenue_agent_eval, wait: true}'   # billed: LLM judges
+```
+
+Running evaluations needs `SNOWFLAKE.CORTEX_USER` and `EXECUTE TASK ON ACCOUNT`; see the `dbt_cortex_agent` docs.
