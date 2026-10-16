@@ -25,6 +25,9 @@ export DBT="uvx --with dbt-duckdb --from dbt-core dbt"
 step() { printf '\n== %s\n' "$1"; }
 run() { "$@" || { echo "pre-pr FAIL: $*" >&2; exit 1; }; }
 
+step "deps: install packages.yml (lint and parse need dbt_packages/)"
+run $DBT deps
+
 step "0/5 pre-commit (lint, yaml, whitespace, secrets, dbt parse)"
 run uvx pre-commit run --all-files
 
