@@ -32,6 +32,7 @@ step "1/5 dbt build (DuckDB)"
 run $DBT build
 
 step "2/5 proofs (claims re-tested against this demo)"
+run bash scripts/test_pending_claims.sh
 run bash proofs/run_all.sh
 
 step "3/5 docs site: regenerate and sanitize"
