@@ -34,6 +34,6 @@ select
         else 'definition_or_manual_adjustment'
     end as gap_cause
 from board b
-left join warehouse w using (figure_id)
+left join warehouse w on b.figure_id = w.figure_id
 where w.warehouse_value is null
    or abs(b.published_value - w.warehouse_value) >= 0.01
