@@ -117,30 +117,6 @@ exposures:
     owner:
       name: Simon Sangla
 
-  - name: proof_2026_10_16_llm_sql
-    label: "Proof: does an LLM write SQL for questions the schema cannot answer?"
-    type: analysis
-    maturity: high
-    url: https://github.com/simonsangla/dbt-revenue-variance-demo/tree/main/proofs/2026-10-16-llm-sql
-    description: |
-      **Claim tested (2026-10-16):** given a schema that cannot answer a question, an LLM still writes
-      plausible SQL instead of declining.
-
-      | Question | Schema can answer? | SQL runs (of 5) |
-      |---|---|---|
-      | total revenue / revenue by month / revenue by product | yes | 5 each |
-      | revenue by region / customer happiness score / churn rate by month / net promoter score | no | 0 each |
-
-      **Result: does not hold for this setup.** qwen2.5-coder:7b (local, Ollama) declined all 20 unanswerable
-      runs when the prompt offered DECLINE explicitly. One model, one prompt, two mart tables.
-
-      Re-run: `bash proofs/2026-10-16-llm-sql/check.sh` (recomputes from the committed runs.csv).
-    depends_on:
-      - ref('fct_monthly_revenue')
-      - ref('fct_revenue_variance')
-    owner:
-      name: Simon Sangla
-
   - name: proof_2026_10_07_chart_vs_metric
     label: "Proof: a dashboard query and the revenue metric must agree"
     type: analysis
