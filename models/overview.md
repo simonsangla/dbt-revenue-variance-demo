@@ -35,16 +35,6 @@ Claims from the dbt and Snowflake conversation, re-run against this demo. Each i
 
 It splits the budget gap into a volume part and a price part, for every product and every month. Two dbt tests tie the bridge back to the raw order lines: budget + volume + price must equal the completed revenue recomputed from the orders seed, per month and product and in total.
 
-## AI Analytics Trust Sprint
-
-> **5 days, fixed scope.** Checks whether your AI analytics answers (Snowflake Cortex Analyst / Agents, text-to-SQL on dbt) can be trusted.
->
-> **Price: 4 500 EUR HT.** 50% credited toward a follow-on engagement booked within 90 days.
->
-> Snowflake's built-in [Cortex Analyst evaluations](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst-evaluations) score answers against your own verified queries. If a business definition is wrong in those queries, the evaluation still passes. The sprint checks the definitions.
->
-> Contact: [Simon Sangla on LinkedIn](https://www.linkedin.com/in/simonsangla/)
-
 ## Start here
 
 Open the [fct_revenue_variance model](#!/model/model.revenue_variance.fct_revenue_variance).
