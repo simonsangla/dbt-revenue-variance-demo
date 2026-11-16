@@ -5,3 +5,5 @@ logs/
 *.duckdb.wal
 .vercel/
 .portfolio/discovery.json
+.venv/
+__pycache__/
