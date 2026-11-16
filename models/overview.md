@@ -41,6 +41,4 @@ Open the [fct_revenue_variance model](#!/model/model.revenue_variance.fct_revenu
 
 Fictional data. Built on DuckDB in plain SQL.
 
-Built by Simon Sangla — [simonsangla.com](https://simonsangla.com)
-
 {% enddocs %}
